@@ -1,0 +1,119 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test08_backup_recovery_20260711T140514Z.log
+Generated (UTC): 2026-07-11T14:05:14Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm a deleted object can be recovered via (a) MinIO bucket versioning and
+(b) an independent mirrored backup bucket, without permanent data loss.
+
+================================================================
+  PROCEDURE 1: Create a secondary backup by mirroring contracts-documents -> backups bucket
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-c0242d7a5114 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-c0242d7a5114 Created 
+`grp4/contracts-documents/contracts_shard_0001.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0001.jsonl`
+┌────────────┬─────────────┬──────────┬─────────────┐
+│ Total      │ Transferred │ Duration │ Speed       │
+│ 807.31 KiB │ 807.31 KiB  │ 00m00s   │ 56.78 MiB/s │
+└────────────┴─────────────┴──────────┴─────────────┘
+
+================================================================
+  PROCEDURE 2: Record baseline hash of the target object
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-9dbebc201fd6 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-9dbebc201fd6 Created 
+8ef8828c0c6ea4d6d2eb2d93e57bb0b653efb221b1dd07f7289facd128d08678  -
+
+================================================================
+  PROCEDURE 3: Simulate accidental deletion of the object from the primary bucket
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-fff075fcdff7 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-fff075fcdff7 Created 
+Created delete marker `grp4/contracts-documents/contracts_shard_0001.jsonl` (versionId=789c0d5d-7d62-483e-97a9-859d198c6898).
+--> Read after delete exit code: 1 (non-zero expected - object gone from live view)
+
+================================================================
+  PROCEDURE 4a: RECOVERY VIA VERSIONING - list versions and restore the previous version
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-8a337e1cbe2a Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-8a337e1cbe2a Created 
+[2026-07-11 14:05:17 UTC]     0B STANDARD 789c0d5d-7d62-483e-97a9-859d198c6898 v8 DEL contracts_shard_0001.jsonl
+[2026-07-11 14:03:46 UTC] 807KiB STANDARD 4c8815d4-e9a3-4510-94f0-18a8a0e089b4 v7 PUT contracts_shard_0001.jsonl
+[2026-07-11 14:03:45 UTC] 807KiB STANDARD d72c0880-23b4-4ec8-8dda-aa5912b62b85 v6 PUT contracts_shard_0001.jsonl
+[2026-07-11 14:03:41 UTC]     0B STANDARD 01f1cbb1-69d0-4add-9da1-6ac99396a41b v5 DEL contracts_shard_0001.jsonl
+[2026-07-11 14:03:00 UTC] 807KiB STANDARD 3c4a3976-f71d-4bc2-989f-3518369d813f v4 PUT contracts_shard_0001.jsonl
+[2026-07-11 14:02:59 UTC] 807KiB STANDARD 7392be21-a5a9-4565-a287-679cb64b392a v3 PUT contracts_shard_0001.jsonl
+[2026-07-11 14:02:56 UTC]     0B STANDARD d7353cca-73ae-4bef-83ef-0f05d8fe5301 v2 DEL contracts_shard_0001.jsonl
+[2026-07-11 13:58:52 UTC] 807KiB STANDARD 90ae1406-6ee6-498f-8698-62bddab7b887 v1 PUT contracts_shard_0001.jsonl
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-dfaf08c84a33 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-dfaf08c84a33 Created 
+Restoring version: 4c8815d4-e9a3-4510-94f0-18a8a0e089b4
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-96a927e6870a Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-96a927e6870a Created 
+`grp4/contracts-documents/contracts_shard_0001.jsonl` -> `grp4/contracts-documents/contracts_shard_0001.jsonl`
+┌────────────┬─────────────┬──────────┬─────────────┐
+│ Total      │ Transferred │ Duration │ Speed       │
+│ 807.31 KiB │ 807.31 KiB  │ 00m00s   │ 52.86 MiB/s │
+└────────────┴─────────────┴──────────┴─────────────┘
+
+================================================================
+  PROCEDURE 4b: RECOVERY VIA SECONDARY BACKUP (fallback if versioning unavailable)
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-0de09bf52f16 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-0de09bf52f16 Created 
+`grp4/backups/contracts-documents/contracts_shard_0001.jsonl` -> `grp4/contracts-documents/contracts_shard_0001.jsonl`
+┌────────────┬─────────────┬──────────┬─────────────┐
+│ Total      │ Transferred │ Duration │ Speed       │
+│ 807.31 KiB │ 807.31 KiB  │ 00m00s   │ 53.75 MiB/s │
+└────────────┴─────────────┴──────────┴─────────────┘
+
+================================================================
+  PROCEDURE 5: Verify the object is readable again and hash matches baseline
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-347b2cfbf31a Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-347b2cfbf31a Created 
+8ef8828c0c6ea4d6d2eb2d93e57bb0b653efb221b1dd07f7289facd128d08678  -
+
+================================================================
+  EXPECTED RESULT
+================================================================
+Object is unreadable immediately after deletion, then successfully restored via
+versioning and/or the mirrored backup bucket, with SHA-256 matching the baseline.
+
+================================================================
+  ACTUAL RESULT
+================================================================
+PASS - object was deleted then successfully recovered.

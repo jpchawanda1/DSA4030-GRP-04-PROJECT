@@ -1,0 +1,17 @@
+# Secrets - never commit
+.env
+certs/*.key
+certs/ca.crt
+certs/public.crt
+certs/*.csr
+
+# Local tooling
+dataset/.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Large regeneratable dataset shards (regenerate with: python3 dataset/generate_dataset.py --seed 42)
+# Keep manifest + a small sample for evidence; ignore the bulk shard files.
+dataset/output/*/*.jsonl
+!dataset/output/*/*_shard_0001.jsonl

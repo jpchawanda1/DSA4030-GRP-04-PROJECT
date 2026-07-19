@@ -1,0 +1,242 @@
+{
+  "contracts-documents/contracts_shard_0001.jsonl": {
+    "sha256": "8ef8828c0c6ea4d6d2eb2d93e57bb0b653efb221b1dd07f7289facd128d08678",
+    "size_bytes": 826685
+  },
+  "contracts-documents/contracts_shard_0002.jsonl": {
+    "sha256": "54a13d8c3f916cac65c329d3d9589c742e0e56db96940e8c36a50e453e93e7ea",
+    "size_bytes": 825533
+  },
+  "contracts-documents/contracts_shard_0003.jsonl": {
+    "sha256": "5390da8864a400486206a762e78b9c34d94c2ae1022ec0ce900050c09a104584",
+    "size_bytes": 827238
+  },
+  "contracts-documents/contracts_shard_0004.jsonl": {
+    "sha256": "bfeb95e9f5b43804ddd3af858e64cf309272176b12f8a5a32a01a761ac5e8f8a",
+    "size_bytes": 830100
+  },
+  "contracts-documents/contracts_shard_0005.jsonl": {
+    "sha256": "ff70303b36b91714bf8566783545b2b834859bd9797f26ffc1e20ea2e042eb11",
+    "size_bytes": 828490
+  },
+  "contracts-documents/contracts_shard_0006.jsonl": {
+    "sha256": "0bf4f2d1b3a2cd5eec4879006e4ecea19e0155438bdf2048d8841dbfc081ab52",
+    "size_bytes": 824319
+  },
+  "contracts-documents/contracts_shard_0007.jsonl": {
+    "sha256": "f224ef84d99e9b9bee7f45129d0d525fb922ebfb468d7d5a65c432f981e7ce4f",
+    "size_bytes": 825504
+  },
+  "contracts-documents/contracts_shard_0008.jsonl": {
+    "sha256": "93cbadf83d5974b9f7f0c65f750b48b61b6603e4ebcef22fcddd3a5433e95ab0",
+    "size_bytes": 824497
+  },
+  "contracts-documents/contracts_shard_0009.jsonl": {
+    "sha256": "24ea5ffb90a129ed83fe677e5843c3e7434667084a54a6592504c8c8176e453a",
+    "size_bytes": 827400
+  },
+  "contracts-documents/contracts_shard_0010.jsonl": {
+    "sha256": "6563f6a3bba3afa767a5bb3f6233c3c0f2e20fb2bce600925ce7e41c3eb43777",
+    "size_bytes": 826866
+  },
+  "contracts-documents/contracts_shard_0011.jsonl": {
+    "sha256": "44ac92bcefdbe9cb439bb44768f99d482243b6bbc75c24bc1d58b32e094f14ed",
+    "size_bytes": 828162
+  },
+  "contracts-documents/contracts_shard_0012.jsonl": {
+    "sha256": "c3e57ae6921e4968b0ef9fde4bb850ae500eb48b31bc1d90539be2cae6db2736",
+    "size_bytes": 829401
+  },
+  "contracts-documents/contracts_shard_0013.jsonl": {
+    "sha256": "14e430a10fe5868f818e989cc90f3fa5364415ea718137acc4425578e777b5fc",
+    "size_bytes": 830030
+  },
+  "contracts-documents/contracts_shard_0014.jsonl": {
+    "sha256": "4661192c2376317ab2090c78b75440b373ecf57b5526214cb0e032a2b459028a",
+    "size_bytes": 827896
+  },
+  "contracts-documents/contracts_shard_0015.jsonl": {
+    "sha256": "ce1a8125281e8f2a233eb05609ce7461864bd5dd8e609210d865009f0e01698d",
+    "size_bytes": 824251
+  },
+  "contracts-documents/contracts_shard_0016.jsonl": {
+    "sha256": "4bb0d5f7ac9499c4ef0f82870391fdb0b8c4611c09c96398866ff1673cf383aa",
+    "size_bytes": 825232
+  },
+  "contracts-documents/contracts_shard_0017.jsonl": {
+    "sha256": "8203ad8636804c4cf3c24cec460866171674ba457f4e360fe43d84073c0a3f33",
+    "size_bytes": 825331
+  },
+  "contracts-documents/contracts_shard_0018.jsonl": {
+    "sha256": "92d4344c10f832956d72e9be756c78d9acec62fd1e631b39be62087fc922f9bd",
+    "size_bytes": 825762
+  },
+  "contracts-documents/contracts_shard_0019.jsonl": {
+    "sha256": "936a166895dec2166a6e7d723ce09e9393b1f2c17659ee3550af7549c95f07b0",
+    "size_bytes": 827197
+  },
+  "contracts-documents/contracts_shard_0020.jsonl": {
+    "sha256": "ae9f1bc63c90d39fe7a1f5ebcef1197bbd10b3d3368b007a836e709193464ee1",
+    "size_bytes": 825863
+  },
+  "finance-documents/finance_shard_0001.jsonl": {
+    "sha256": "88ac0ef930b7d10f5b5d46141f0f1b4ab02e4efe39357b32691e05f1955c9262",
+    "size_bytes": 835257
+  },
+  "finance-documents/finance_shard_0002.jsonl": {
+    "sha256": "8837c3c5dce940d5f8ef71afc93546de382ad364812dc81a12669e5b922f08d8",
+    "size_bytes": 833786
+  },
+  "finance-documents/finance_shard_0003.jsonl": {
+    "sha256": "af297e0e7e2e503c6e0e4b5942661999629cd152f90349102c9858f8d7fc3730",
+    "size_bytes": 834607
+  },
+  "finance-documents/finance_shard_0004.jsonl": {
+    "sha256": "360f949e5ffdb6703fffb6e07ad6b71191dbf37e8fd18ca94d5d9dee5bf284a8",
+    "size_bytes": 835223
+  },
+  "finance-documents/finance_shard_0005.jsonl": {
+    "sha256": "477f8ef32ad1df2e51c00d40f71fbbc6576f73e103faba4de74520355d7b2068",
+    "size_bytes": 835120
+  },
+  "finance-documents/finance_shard_0006.jsonl": {
+    "sha256": "be488a4115d2f167ee680454586f8559d87abde7a6c9e23a69de8996d95c69c0",
+    "size_bytes": 835608
+  },
+  "finance-documents/finance_shard_0007.jsonl": {
+    "sha256": "6078677e2d6dc60cbef21bb1f13f86903eecc9851fd427ef2010b753fda36441",
+    "size_bytes": 835371
+  },
+  "finance-documents/finance_shard_0008.jsonl": {
+    "sha256": "ee55fb01b3310dbe1da601c5c2da253bed54259d43a03b165cae16382a6fa635",
+    "size_bytes": 833171
+  },
+  "finance-documents/finance_shard_0009.jsonl": {
+    "sha256": "272761dcf9c58667dcb861004d6396df786ff6fe1c85c4adc1a5a700bb3fc623",
+    "size_bytes": 835086
+  },
+  "finance-documents/finance_shard_0010.jsonl": {
+    "sha256": "b22f63fe5f8815ca27b57845834b47e1be0280afa8875534d3a4f6be1de73389",
+    "size_bytes": 833548
+  },
+  "finance-documents/finance_shard_0011.jsonl": {
+    "sha256": "9a79a8fa5a00702e82470abdbbe8ee8d85bf510fccdf822e5bb86ff08f88955a",
+    "size_bytes": 834350
+  },
+  "finance-documents/finance_shard_0012.jsonl": {
+    "sha256": "f78cf396adbf69ca7e5673fb539504a7b6ba473a941b87f20aecc89b624ddd26",
+    "size_bytes": 834343
+  },
+  "finance-documents/finance_shard_0013.jsonl": {
+    "sha256": "d1223a32c5ecc05d07d5bf75a03868f2dc589e6d2ff8a089dfb381adb931b3b7",
+    "size_bytes": 836713
+  },
+  "finance-documents/finance_shard_0014.jsonl": {
+    "sha256": "0a105dd3174161761b229f81f95a0186782dce842b9d7b274c76a11ed5678f6c",
+    "size_bytes": 834709
+  },
+  "finance-documents/finance_shard_0015.jsonl": {
+    "sha256": "1b9494d6f693d51d7b838f061af7960244c3c5dae06715f87ea9b8fdf43bb10a",
+    "size_bytes": 834488
+  },
+  "finance-documents/finance_shard_0016.jsonl": {
+    "sha256": "ed5df3d917f5a25e90e520796a12d8562a75f4323a82f2ed7f2e57ef79b206f6",
+    "size_bytes": 833867
+  },
+  "finance-documents/finance_shard_0017.jsonl": {
+    "sha256": "57edccc8519248d731d805e1ca29ba519820890c9a649758b03a4289adc2adfa",
+    "size_bytes": 833699
+  },
+  "finance-documents/finance_shard_0018.jsonl": {
+    "sha256": "3492c88e8b46fb70989831c34d6b7eb1db4c957c332d958c4e23c4f200973744",
+    "size_bytes": 834200
+  },
+  "finance-documents/finance_shard_0019.jsonl": {
+    "sha256": "56682f03f5a03fb99c7a41a4a1d6c5ffba7894f20dde7c6bf20e4f230bf0c95e",
+    "size_bytes": 833888
+  },
+  "finance-documents/finance_shard_0020.jsonl": {
+    "sha256": "b48daaee55d06249e4b27c9d0fbb00423d8dccb72e49a8586dc1fe643e3eb154",
+    "size_bytes": 835073
+  },
+  "hr-documents/hr_shard_0001.jsonl": {
+    "sha256": "3ad9bfbf7ddafaf9939e499b90534fc234ea07f6e81ec842e641eca0ad7b095e",
+    "size_bytes": 981224
+  },
+  "hr-documents/hr_shard_0002.jsonl": {
+    "sha256": "f7ca02f467e898d9e7fd4dc09b317b4a05e9bc4dfbb6588c92e46e2425654903",
+    "size_bytes": 983155
+  },
+  "hr-documents/hr_shard_0003.jsonl": {
+    "sha256": "1f57f390182fd914f1e2a9b5c2e200dd4f322806a8438a82f2ece4cbd5c2e35a",
+    "size_bytes": 981774
+  },
+  "hr-documents/hr_shard_0004.jsonl": {
+    "sha256": "ec04bfab737bb940f3f40a36abebad55c1e69f90984d7c6b64ba8de118f2b3cd",
+    "size_bytes": 981334
+  },
+  "hr-documents/hr_shard_0005.jsonl": {
+    "sha256": "7f74bfa9768a792aae91f28a256ae5f143f74cf18aeb9144aef92f9673677c6c",
+    "size_bytes": 982155
+  },
+  "hr-documents/hr_shard_0006.jsonl": {
+    "sha256": "54cfcdee5c4c0fff4b023a3e08b83f343b631ea8484d14e46a02e0e9540bfe0f",
+    "size_bytes": 980730
+  },
+  "hr-documents/hr_shard_0007.jsonl": {
+    "sha256": "2dbea011622a85c6527cec9a506734ffd099bbbdc3afbb713af5b1269976384c",
+    "size_bytes": 981387
+  },
+  "hr-documents/hr_shard_0008.jsonl": {
+    "sha256": "f5b1d2ee0318e1c55059b4e6577756bfb36f7bfb2cc55a2ad6ea4e50a3da11c4",
+    "size_bytes": 982375
+  },
+  "hr-documents/hr_shard_0009.jsonl": {
+    "sha256": "e69f45190788116bca357dcbac9ee8053e20edbcea8f6d8720fd1d48b23dd426",
+    "size_bytes": 982949
+  },
+  "hr-documents/hr_shard_0010.jsonl": {
+    "sha256": "72f0a6062be5b7bee76d480dd240b5e9261cd10ba39d4eb46ff898bbde5af0d6",
+    "size_bytes": 982976
+  },
+  "hr-documents/hr_shard_0011.jsonl": {
+    "sha256": "31557a33aeea6f542351997e0cbef648b3a79aaa9539b59665e8e0994e48fd7e",
+    "size_bytes": 981805
+  },
+  "hr-documents/hr_shard_0012.jsonl": {
+    "sha256": "f68e68af8dac19766f66ceb36ec8e142e41ac97c180f805f76fadd9466aedde5",
+    "size_bytes": 980826
+  },
+  "hr-documents/hr_shard_0013.jsonl": {
+    "sha256": "06509f5922d5c8978d5424ccba2dc93a0a0908d4bc1d22d7520def23fdee82ee",
+    "size_bytes": 981847
+  },
+  "hr-documents/hr_shard_0014.jsonl": {
+    "sha256": "89bf117e4055cf023a01f1514293b0b69f80ae6b52510f4541e8bdbf97e332f8",
+    "size_bytes": 982119
+  },
+  "hr-documents/hr_shard_0015.jsonl": {
+    "sha256": "3d19c24c466b3cf4853839abedb2478bad6b3b5241de3765cdeaaf5392abfa20",
+    "size_bytes": 981646
+  },
+  "hr-documents/hr_shard_0016.jsonl": {
+    "sha256": "e4e603d591340c39696db6feb5bf10cd0e4c8d12e61285edec4d3c20e607fda1",
+    "size_bytes": 980785
+  },
+  "hr-documents/hr_shard_0017.jsonl": {
+    "sha256": "e60a5c6a5baa031d2dfcdd722a6f4941b8a4d7deb2c1847141e505a7c5f560fc",
+    "size_bytes": 981364
+  },
+  "hr-documents/hr_shard_0018.jsonl": {
+    "sha256": "7c5e651206d9e851a4c21f528e13b57cc08f695fc2678f75aca754b58a6846d1",
+    "size_bytes": 981699
+  },
+  "hr-documents/hr_shard_0019.jsonl": {
+    "sha256": "521cc37dd774e114678a381f70d6d63d7e8c2c088e302e586b4f3c41c59146ed",
+    "size_bytes": 981123
+  },
+  "hr-documents/hr_shard_0020.jsonl": {
+    "sha256": "3058dfe6e7059f694cb80f54cbe719d0c5230cfc67c8e350ef8cce4e5668962f",
+    "size_bytes": 981998
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Run Audit Webhook",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/logging/audit-webhook/app.py",
+      "cwd": "${workspaceFolder}/logging/audit-webhook",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env",
+      "justMyCode": true
+    }
+  ]
+}

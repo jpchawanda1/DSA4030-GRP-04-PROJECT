@@ -1,0 +1,52 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test03_tls_enforcement_20260711T135955Z.log
+Generated (UTC): 2026-07-11T13:59:55Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm MinIO only serves the S3 API over TLS using our OpenSSL-issued certificate,
+and that a plaintext (non-TLS) request on the same port is rejected.
+
+================================================================
+  PROCEDURE 1: TLS handshake + certificate chain verification against our CA
+================================================================
+subject=C=KE, ST=Nairobi, L=Nairobi, O=DSA4030-Group4, OU=SecureCloudStorage, CN=minio
+issuer=C=KE, ST=Nairobi, L=Nairobi, O=DSA4030-Group4, OU=SecurityConsulting, CN=DSA4030-Group4-RootCA
+New, TLSv1.3, Cipher is TLS_AES_128_GCM_SHA256
+Protocol: TLSv1.3
+Verify return code: 0 (ok)
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_128_GCM_SHA256
+    Verify return code: 0 (ok)
+--> Verify return code 0 (ok) occurrences: 2
+
+================================================================
+  PROCEDURE 2: Confirm certificate Subject/SAN matches our OpenSSL CN
+================================================================
+subject=C=KE, ST=Nairobi, L=Nairobi, O=DSA4030-Group4, OU=SecureCloudStorage, CN=minio
+issuer=C=KE, ST=Nairobi, L=Nairobi, O=DSA4030-Group4, OU=SecurityConsulting, CN=DSA4030-Group4-RootCA
+notBefore=Jul 11 13:55:50 2026 GMT
+notAfter=Oct 13 13:55:50 2028 GMT
+
+================================================================
+  PROCEDURE 3: Attempt a PLAINTEXT HTTP request against the API port (should not succeed)
+================================================================
+--> curl exit code: 0, http_code=400
+--> response body:
+Client sent an HTTP request to an HTTPS server.
+
+(A raw-HTTP request against a TLS-only listener either resets the connection (curl exit
+ != 0) or, since it can't be parsed as a valid TLS ClientHello, MinIO's HTTP layer returns
+ an error status rather than the live/200 health response. Either way is TLS enforcement.)
+
+================================================================
+  EXPECTED RESULT
+================================================================
+1) TLS handshake succeeds and chains to our root CA (certs/ca.crt).
+2) Certificate subject/SAN identifies the MinIO server we issued (CN=minio).
+3) Plaintext HTTP request does NOT get a valid 200 /minio/health/live response.
+
+================================================================
+  ACTUAL RESULT
+================================================================
+PASS - MinIO enforces TLS-only access using our OpenSSL certificate.

@@ -1,0 +1,132 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test08_backup_recovery_20260711T140253Z.log
+Generated (UTC): 2026-07-11T14:02:53Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm a deleted object can be recovered via (a) MinIO bucket versioning and
+(b) an independent mirrored backup bucket, without permanent data loss.
+
+================================================================
+  PROCEDURE 1: Create a secondary backup by mirroring contracts-documents -> backups bucket
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-356637c5bd92 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-356637c5bd92 Created 
+`grp4/contracts-documents/contracts_shard_0002.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0002.jsonl`
+`grp4/contracts-documents/contracts_shard_0001.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0001.jsonl`
+`grp4/contracts-documents/contracts_shard_0003.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0003.jsonl`
+`grp4/contracts-documents/contracts_shard_0004.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0004.jsonl`
+`grp4/contracts-documents/contracts_shard_0006.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0006.jsonl`
+`grp4/contracts-documents/contracts_shard_0008.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0008.jsonl`
+`grp4/contracts-documents/contracts_shard_0005.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0005.jsonl`
+`grp4/contracts-documents/contracts_shard_0007.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0007.jsonl`
+`grp4/contracts-documents/contracts_shard_0010.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0010.jsonl`
+`grp4/contracts-documents/contracts_shard_0009.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0009.jsonl`
+`grp4/contracts-documents/contracts_shard_0011.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0011.jsonl`
+`grp4/contracts-documents/contracts_shard_0012.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0012.jsonl`
+`grp4/contracts-documents/contracts_shard_0013.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0013.jsonl`
+`grp4/contracts-documents/contracts_shard_0014.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0014.jsonl`
+`grp4/contracts-documents/contracts_shard_0016.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0016.jsonl`
+`grp4/contracts-documents/contracts_shard_0015.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0015.jsonl`
+`grp4/contracts-documents/contracts_shard_0018.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0018.jsonl`
+`grp4/contracts-documents/contracts_shard_0017.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0017.jsonl`
+`grp4/contracts-documents/contracts_shard_0019.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0019.jsonl`
+`grp4/contracts-documents/contracts_shard_0020.jsonl` -> `grp4/backups/contracts-documents/contracts_shard_0020.jsonl`
+┌───────────┬─────────────┬──────────┬──────────────┐
+│ Total     │ Transferred │ Duration │ Speed        │
+│ 15.77 MiB │ 15.77 MiB   │ 00m00s   │ 345.17 MiB/s │
+└───────────┴─────────────┴──────────┴──────────────┘
+
+================================================================
+  PROCEDURE 2: Record baseline hash of the target object
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-7d547b2ad2a0 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-7d547b2ad2a0 Created 
+8ef8828c0c6ea4d6d2eb2d93e57bb0b653efb221b1dd07f7289facd128d08678  -
+
+================================================================
+  PROCEDURE 3: Simulate accidental deletion of the object from the primary bucket
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-43360d39c6da Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-43360d39c6da Created 
+Created delete marker `grp4/contracts-documents/contracts_shard_0001.jsonl` (versionId=d7353cca-73ae-4bef-83ef-0f05d8fe5301).
+--> Read after delete exit code: 1 (non-zero expected - object gone from live view)
+
+================================================================
+  PROCEDURE 4a: RECOVERY VIA VERSIONING - list versions and restore the previous version
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-e1f1aa446717 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-e1f1aa446717 Created 
+[2026-07-11 14:02:56 UTC]     0B STANDARD d7353cca-73ae-4bef-83ef-0f05d8fe5301 v2 DEL contracts_shard_0001.jsonl
+[2026-07-11 13:58:52 UTC] 807KiB STANDARD 90ae1406-6ee6-498f-8698-62bddab7b887 v1 PUT contracts_shard_0001.jsonl
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-90dc45ed9987 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-90dc45ed9987 Created 
+Restoring version: 90ae1406-6ee6-498f-8698-62bddab7b887
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-d81db6bddc09 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-d81db6bddc09 Created 
+`grp4/contracts-documents/contracts_shard_0001.jsonl` -> `grp4/contracts-documents/contracts_shard_0001.jsonl`
+┌────────────┬─────────────┬──────────┬─────────────┐
+│ Total      │ Transferred │ Duration │ Speed       │
+│ 807.31 KiB │ 807.31 KiB  │ 00m00s   │ 51.86 MiB/s │
+└────────────┴─────────────┴──────────┴─────────────┘
+
+================================================================
+  PROCEDURE 4b: RECOVERY VIA SECONDARY BACKUP (fallback if versioning unavailable)
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-4d4fbd05d002 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-4d4fbd05d002 Created 
+`grp4/backups/contracts-documents/contracts_shard_0001.jsonl` -> `grp4/contracts-documents/contracts_shard_0001.jsonl`
+┌────────────┬─────────────┬──────────┬─────────────┐
+│ Total      │ Transferred │ Duration │ Speed       │
+│ 807.31 KiB │ 807.31 KiB  │ 00m00s   │ 55.14 MiB/s │
+└────────────┴─────────────┴──────────┴─────────────┘
+
+================================================================
+  PROCEDURE 5: Verify the object is readable again and hash matches baseline
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-23b87cd61548 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-23b87cd61548 Created 
+8ef8828c0c6ea4d6d2eb2d93e57bb0b653efb221b1dd07f7289facd128d08678  -
+
+================================================================
+  EXPECTED RESULT
+================================================================
+Object is unreadable immediately after deletion, then successfully restored via
+versioning and/or the mirrored backup bucket, with SHA-256 matching the baseline.
+
+================================================================
+  ACTUAL RESULT
+================================================================
+PASS - object was deleted then successfully recovered.

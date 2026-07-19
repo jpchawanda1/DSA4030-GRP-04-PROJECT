@@ -1,0 +1,108 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test06_audit_log_review_20260711T140332Z.log
+Generated (UTC): 2026-07-11T14:03:32Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm the logging pipeline (MinIO -> audit webhook -> logs/audit.log) captures
+both a successful, authorized request and a denied, unauthorized request, and that
+the log is reviewable via the query API (satisfies Part A 'logging capability' and
+Part C 'review audit logs').
+
+================================================================
+  PROCEDURE 1: Generate a known-good, attributable event (hr-manager reads own bucket)
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-d3e924d080e2 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-d3e924d080e2 Created 
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-127080d730f2 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-127080d730f2 Created 
+
+================================================================
+  PROCEDURE 2: Generate a known-bad, attributable denied event (finance-analyst reads hr-documents)
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-bbb5dc1b832b Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-bbb5dc1b832b Created 
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-5a4ae5a6ad95 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-5a4ae5a6ad95 Created 
+mc: <ERROR> Unable to list folder. Access Denied.
+
+
+================================================================
+  PROCEDURE 3: Query the audit log receiver for the ALLOWED event
+================================================================
+[
+    {
+        "_received_at": "2026-07-11T13:59:13.290921+00:00",
+        "accessKey": "hr-manager",
+        "api": {
+            "bucket": "probe-bsign-vav4xcagqjedavnvhex660e5jtotct",
+            "name": "GetBucketLocation",
+            "rx": 0,
+            "status": "Forbidden",
+            "statusCode": 403,
+            "timeToFirstByte": "176792ns",
+            "timeToFirstByteInNS": "176792",
+            "timeToResponse": "180167ns",
+            "timeToResponseInNS": "180167",
+            "tx": 364,
+            "txHeaders": 403
+        },
+        "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644",
+        "event": "",
+        "remotehost": "172.21.0.5",
+        "requestHeader": {
+            "Accept-Encoding": "zstd,gzip",
+            "Authorization": "AWS4-HMAC-SHA256 Credential=hr-manager/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=11cc0039c6886a132a30bd3a412f1778a81e6b90ac7b49587e003c1c9fa939df",
+            "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90",
+            "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD",
+            "X-Amz-Date": "20260711T135913Z"
+        },
+        "requestHost": "minio:9000",
+        "requestID": "18C140F621DF4DF8",
+        "requestPath": "/probe-bsign-vav4xcagqjedavnvhex660e5jtotct/",
+        "requestQuery": {
+            "location": ""
+        },
+        "responseHeader": {
+            "Accept-Ranges": "bytes",
+            "Content-Length": "364",
+            "Content-Type": "application/xml",
+            "Server": "MinIO",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Vary": "Origin,Accept-Encoding",
+            "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8",
+            "X-Amz-Request-Id": "18C140F621DF4DF8",
+            "X-Content-Type-Options": "nosniff",
+            "X-Ratelimit-Limit": "2117",
+            "X-Ratelimit-Remaining": "2117",
+            "X-Xss-Protection": "1; mode=block"
+        },
+        "time": "2026-07-11T13:59:13.290024084Z",
+        "trigger": "incoming",
+        "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90",
+        "version": "1"
+    },
+    {
+        "_received_at": "2026-07-11T13:59:13.292893+00:00",
+        "accessKey": "hr-manager",
+        "api": {
+            "bucket": "probe-bsign-vav4xcagqjedavnvhex660e5jtotct",
+            "name": "HeadBucket",
+            "rx": 0,
+            "status": "Forbidden",

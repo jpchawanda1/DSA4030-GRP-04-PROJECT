@@ -1,0 +1,21 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test05_integrity_verification_20260711T140150Z.log
+Generated (UTC): 2026-07-11T14:01:50Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm object integrity can be verified against the pre-upload SHA-256 manifest,
+and that tampering with stored bytes is detected by a hash mismatch.
+Expected SHA-256 (from manifest, computed pre-upload): 88ac0ef930b7d10f5b5d46141f0f1b4ab02e4efe39357b32691e05f1955c9262
+
+================================================================
+  PROCEDURE 1: BASELINE - download current object and verify hash matches manifest
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-e989e6a60f13 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-e989e6a60f13 Created 
+mc: <ERROR> Unable to read from `grp4/finance-documents/finance_shard_0001.jsonl`. Resource requested is unreadable, please reduce your request rate.
+

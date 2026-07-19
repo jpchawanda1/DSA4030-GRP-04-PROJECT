@@ -1,0 +1,198 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test06_audit_log_review_20260711T140225Z.log
+Generated (UTC): 2026-07-11T14:02:25Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm the logging pipeline (MinIO -> audit webhook -> logs/audit.log) captures
+both a successful, authorized request and a denied, unauthorized request, and that
+the log is reviewable via the query API (satisfies Part A 'logging capability' and
+Part C 'review audit logs').
+
+================================================================
+  PROCEDURE 1: Generate a known-good, attributable event (hr-manager reads own bucket)
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-49942699c911 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-49942699c911 Created 
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-404fdb05c50e Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-404fdb05c50e Created 
+
+================================================================
+  PROCEDURE 2: Generate a known-bad, attributable denied event (finance-analyst reads hr-documents)
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-339e1194037b Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-339e1194037b Created 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-c24674c58179 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-c24674c58179 Created 
+mc: <ERROR> Unable to list folder. Access Denied.
+
+
+================================================================
+  PROCEDURE 3: Query the audit log receiver for the ALLOWED event
+================================================================
+[
+    {
+        "_received_at": "2026-07-11T13:59:13.290921+00:00",
+        "accessKey": "hr-manager",
+        "api": {
+            "bucket": "probe-bsign-vav4xcagqjedavnvhex660e5jtotct",
+            "name": "GetBucketLocation",
+            "rx": 0,
+            "status": "Forbidden",
+            "statusCode": 403,
+            "timeToFirstByte": "176792ns",
+            "timeToFirstByteInNS": "176792",
+            "timeToResponse": "180167ns",
+            "timeToResponseInNS": "180167",
+            "tx": 364,
+            "txHeaders": 403
+        },
+        "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644",
+        "event": "",
+        "remotehost": "172.21.0.5",
+        "requestHeader": {
+            "Accept-Encoding": "zstd,gzip",
+            "Authorization": "AWS4-HMAC-SHA256 Credential=hr-manager/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=11cc0039c6886a132a30bd3a412f1778a81e6b90ac7b49587e003c1c9fa939df",
+            "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90",
+            "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD",
+            "X-Amz-Date": "20260711T135913Z"
+        },
+        "requestHost": "minio:9000",
+        "requestID": "18C140F621DF4DF8",
+        "requestPath": "/probe-bsign-vav4xcagqjedavnvhex660e5jtotct/",
+        "requestQuery": {
+            "location": ""
+        },
+        "responseHeader": {
+            "Accept-Ranges": "bytes",
+            "Content-Length": "364",
+            "Content-Type": "application/xml",
+            "Server": "MinIO",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Vary": "Origin,Accept-Encoding",
+            "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8",
+            "X-Amz-Request-Id": "18C140F621DF4DF8",
+            "X-Content-Type-Options": "nosniff",
+            "X-Ratelimit-Limit": "2117",
+            "X-Ratelimit-Remaining": "2117",
+            "X-Xss-Protection": "1; mode=block"
+        },
+        "time": "2026-07-11T13:59:13.290024084Z",
+        "trigger": "incoming",
+        "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90",
+        "version": "1"
+    },
+    {
+        "_received_at": "2026-07-11T13:59:13.292893+00:00",
+        "accessKey": "hr-manager",
+        "api": {
+            "bucket": "probe-bsign-vav4xcagqjedavnvhex660e5jtotct",
+            "name": "HeadBucket",
+            "rx": 0,
+            "status": "Forbidden",
+
+================================================================
+  PROCEDURE 4: Query the audit log receiver for the DENIED event
+================================================================
+[
+    {
+        "_received_at": "2026-07-11T13:59:14.206346+00:00",
+        "accessKey": "finance-analyst",
+        "api": {
+            "bucket": "probe-bsign-v23ity2kbir61zcfzpbjnqoibnw5z2",
+            "name": "GetBucketLocation",
+            "rx": 0,
+            "status": "Forbidden",
+            "statusCode": 403,
+            "timeToFirstByte": "169916ns",
+            "timeToFirstByteInNS": "169916",
+            "timeToResponse": "173583ns",
+            "timeToResponseInNS": "173583",
+            "tx": 364,
+            "txHeaders": 403
+        },
+        "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644",
+        "event": "",
+        "remotehost": "172.21.0.5",
+        "requestHeader": {
+            "Accept-Encoding": "zstd,gzip",
+            "Authorization": "AWS4-HMAC-SHA256 Credential=finance-analyst/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=0609ec68b9c45b6e75fdcfb1fe76b7643d716eea965846ad5882ca9221b9e2f7",
+            "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90",
+            "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD",
+            "X-Amz-Date": "20260711T135914Z"
+        },
+        "requestHost": "minio:9000",
+        "requestID": "18C140F658701BF7",
+        "requestPath": "/probe-bsign-v23ity2kbir61zcfzpbjnqoibnw5z2/",
+        "requestQuery": {
+            "location": ""
+        },
+        "responseHeader": {
+            "Accept-Ranges": "bytes",
+            "Content-Length": "364",
+            "Content-Type": "application/xml",
+            "Server": "MinIO",
+            "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+            "Vary": "Origin,Accept-Encoding",
+            "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8",
+            "X-Amz-Request-Id": "18C140F658701BF7",
+            "X-Content-Type-Options": "nosniff",
+            "X-Ratelimit-Limit": "2117",
+            "X-Ratelimit-Remaining": "2117",
+            "X-Xss-Protection": "1; mode=block"
+        },
+        "time": "2026-07-11T13:59:14.205477668Z",
+        "trigger": "incoming",
+        "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90",
+        "version": "1"
+    },
+    {
+        "_received_at": "2026-07-11T13:59:14.208182+00:00",
+        "accessKey": "finance-analyst",
+        "api": {
+            "bucket": "probe-bsign-v23ity2kbir61zcfzpbjnqoibnw5z2",
+            "name": "HeadBucket",
+            "rx": 0,
+            "status": "Forbidden",
+
+================================================================
+  PROCEDURE 5: Raw tail of the append-only audit log file (evidence of persistence)
+================================================================
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:26.329322715Z", "event": "", "trigger": "incoming", "api": {"name": "GetBucketLocation", "bucket": "probe-bsign-aunnkqsa61vwfci2atcwr3ljzxj604", "status": "Forbidden", "statusCode": 403, "rx": 0, "tx": 364, "txHeaders": 403, "timeToFirstByte": "177042ns", "timeToFirstByteInNS": "177042", "timeToResponse": "181042ns", "timeToResponseInNS": "181042"}, "remotehost": "172.21.0.5", "requestID": "18C1412313E938B6", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90", "requestPath": "/probe-bsign-aunnkqsa61vwfci2atcwr3ljzxj604/", "requestHost": "minio:9000", "requestQuery": {"location": ""}, "requestHeader": {"Accept-Encoding": "zstd,gzip", "Authorization": "AWS4-HMAC-SHA256 Credential=hr-manager/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=f6b438653c75795718c03997deaf4af6e10437ff128841ee8eda7b2e6c64bc4e", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90", "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD", "X-Amz-Date": "20260711T140226Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "364", "Content-Type": "application/xml", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C1412313E938B6", "X-Content-Type-Options": "nosniff", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block"}, "accessKey": "hr-manager", "_received_at": "2026-07-11T14:02:26.330283+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:26.330142299Z", "event": "", "trigger": "incoming", "api": {"name": "HeadBucket", "bucket": "probe-bsign-aunnkqsa61vwfci2atcwr3ljzxj604", "status": "Forbidden", "statusCode": 403, "rx": 0, "tx": 0, "txHeaders": 441, "timeToFirstByte": "86667ns", "timeToFirstByteInNS": "86667", "timeToResponse": "95375ns", "timeToResponseInNS": "95375"}, "remotehost": "172.21.0.5", "requestID": "18C1412313F70AF6", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90", "requestPath": "/probe-bsign-aunnkqsa61vwfci2atcwr3ljzxj604/", "requestHost": "minio:9000", "requestHeader": {"Authorization": "AWS4-HMAC-SHA256 Credential=hr-manager/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=c692a6a444c5a293264bafbd7f570b52cb63abdb85543cbb9f5be87782d561cc", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90", "X-Amz-Content-Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "X-Amz-Date": "20260711T140226Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "0", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C1412313F70AF6", "X-Content-Type-Options": "nosniff", "X-Minio-Error-Code": "AccessDenied", "X-Minio-Error-Desc": "\"Access Denied.\"", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block"}, "accessKey": "hr-manager", "_received_at": "2026-07-11T14:02:26.332447+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:27.241067882Z", "event": "", "trigger": "incoming", "api": {"name": "GetBucketLocation", "bucket": "hr-documents", "status": "OK", "statusCode": 200, "rx": 0, "tx": 128, "txHeaders": 396, "timeToFirstByte": "236458ns", "timeToFirstByteInNS": "236458", "timeToResponse": "241542ns", "timeToResponseInNS": "241542"}, "remotehost": "172.21.0.5", "requestID": "18C141234A40727A", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "requestPath": "/hr-documents/", "requestHost": "minio:9000", "requestQuery": {"location": ""}, "requestHeader": {"Accept-Encoding": "zstd,gzip", "Authorization": "AWS4-HMAC-SHA256 Credential=grp4admin/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=593356748eea8b216478ad4c012accc4fd027155d59efbcf5c816a334cff70c4", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD", "X-Amz-Date": "20260711T140227Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "128", "Content-Type": "application/xml", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C141234A40727A", "X-Content-Type-Options": "nosniff", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block"}, "accessKey": "grp4admin", "_received_at": "2026-07-11T14:02:27.241869+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:27.241841924Z", "event": "", "trigger": "incoming", "api": {"name": "HeadObject", "bucket": "hr-documents", "object": "hr_shard_0001.jsonl", "status": "OK", "statusCode": 200, "rx": 0, "tx": 0, "txHeaders": 586, "timeToFirstByte": "376333ns", "timeToFirstByteInNS": "376333", "timeToResponse": "398917ns", "timeToResponseInNS": "398917"}, "remotehost": "172.21.0.5", "requestID": "18C141234A49E4EF", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "requestPath": "/hr-documents/hr_shard_0001.jsonl", "requestHost": "minio:9000", "requestHeader": {"Authorization": "AWS4-HMAC-SHA256 Credential=grp4admin/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-checksum-mode;x-amz-content-sha256;x-amz-date, Signature=24a4cfca44ba77ae70d67bce89e8bebbadfc649e4257eb33c32a3c3860ba9626", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "X-Amz-Checksum-Mode": "ENABLED", "X-Amz-Content-Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "X-Amz-Date": "20260711T140227Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "981224", "Content-Type": "application/octet-stream", "ETag": "df3154f85735fdc190eb9770ca3519ac", "Last-Modified": "Sat, 11 Jul 2026 13:58:52 GMT", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C141234A49E4EF", "X-Amz-Server-Side-Encryption": "AES256", "X-Content-Type-Options": "nosniff", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block", "x-amz-version-id": "f39b506e-a084-4790-9cb1-04e097af2af6"}, "tags": {"GetObjectInfo": "name=hr_shard_0001.jsonl,pool=1,set=1"}, "accessKey": "grp4admin", "_received_at": "2026-07-11T14:02:27.243862+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:27.245743424Z", "event": "", "trigger": "incoming", "api": {"name": "GetObject", "bucket": "hr-documents", "object": "hr_shard_0001.jsonl", "status": "OK", "statusCode": 200, "rx": 0, "tx": 981224, "txHeaders": 586, "timeToFirstByte": "1291792ns", "timeToFirstByteInNS": "1291792", "timeToResponse": "3156583ns", "timeToResponseInNS": "3156583"}, "remotehost": "172.21.0.5", "requestID": "18C141234A5B682B", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "requestPath": "/hr-documents/hr_shard_0001.jsonl", "requestHost": "minio:9000", "requestQuery": {"versionId": "f39b506e-a084-4790-9cb1-04e097af2af6"}, "requestHeader": {"Accept-Encoding": "identity", "Authorization": "AWS4-HMAC-SHA256 Credential=grp4admin/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=2e062fd60f6daa75b6c041bebf246f958ff82cd329688423aa4ac6ed16977b0f", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "X-Amz-Content-Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "X-Amz-Date": "20260711T140227Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "981224", "Content-Type": "application/octet-stream", "ETag": "df3154f85735fdc190eb9770ca3519ac", "Last-Modified": "Sat, 11 Jul 2026 13:58:52 GMT", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C141234A5B682B", "X-Amz-Server-Side-Encryption": "AES256", "X-Content-Type-Options": "nosniff", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block", "x-amz-version-id": "f39b506e-a084-4790-9cb1-04e097af2af6"}, "tags": {"GetObject": "name=hr_shard_0001.jsonl,pool=1,set=1"}, "accessKey": "grp4admin", "_received_at": "2026-07-11T14:02:27.246573+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:28.145694591Z", "event": "", "trigger": "incoming", "api": {"name": "GetBucketLocation", "bucket": "probe-bsign-9r2ifvevoa9crlwxtm3ebevwsv45yb", "status": "Forbidden", "statusCode": 403, "rx": 0, "tx": 364, "txHeaders": 403, "timeToFirstByte": "164958ns", "timeToFirstByteInNS": "164958", "timeToResponse": "168458ns", "timeToResponseInNS": "168458"}, "remotehost": "172.21.0.5", "requestID": "18C14123802D0C81", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90", "requestPath": "/probe-bsign-9r2ifvevoa9crlwxtm3ebevwsv45yb/", "requestHost": "minio:9000", "requestQuery": {"location": ""}, "requestHeader": {"Accept-Encoding": "zstd,gzip", "Authorization": "AWS4-HMAC-SHA256 Credential=finance-analyst/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=950ccc71817e2864ef81e25cd4d1d9dd0e5131f04d82fd84cf2c2ece78c4dfba", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90", "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD", "X-Amz-Date": "20260711T140228Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "364", "Content-Type": "application/xml", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C14123802D0C81", "X-Content-Type-Options": "nosniff", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block"}, "accessKey": "finance-analyst", "_received_at": "2026-07-11T14:02:28.146620+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:28.146188466Z", "event": "", "trigger": "incoming", "api": {"name": "HeadBucket", "bucket": "probe-bsign-9r2ifvevoa9crlwxtm3ebevwsv45yb", "status": "Forbidden", "statusCode": 403, "rx": 0, "tx": 0, "txHeaders": 441, "timeToFirstByte": "54833ns", "timeToFirstByteInNS": "54833", "timeToResponse": "61875ns", "timeToResponseInNS": "61875"}, "remotehost": "172.21.0.5", "requestID": "18C1412380363F29", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90", "requestPath": "/probe-bsign-9r2ifvevoa9crlwxtm3ebevwsv45yb/", "requestHost": "minio:9000", "requestHeader": {"Authorization": "AWS4-HMAC-SHA256 Credential=finance-analyst/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=9c150fb8e0b9e386ce4ee30e3c437d59b0fdc115971b3202a2176881ae569b20", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90", "X-Amz-Content-Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "X-Amz-Date": "20260711T140228Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "0", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C1412380363F29", "X-Content-Type-Options": "nosniff", "X-Minio-Error-Code": "AccessDenied", "X-Minio-Error-Desc": "\"Access Denied.\"", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block"}, "accessKey": "finance-analyst", "_received_at": "2026-07-11T14:02:28.148723+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:29.065514883Z", "event": "", "trigger": "incoming", "api": {"name": "GetBucketLocation", "bucket": "hr-documents", "status": "Forbidden", "statusCode": 403, "rx": 0, "tx": 304, "txHeaders": 403, "timeToFirstByte": "158833ns", "timeToFirstByteInNS": "158833", "timeToResponse": "164625ns", "timeToResponseInNS": "164625"}, "remotehost": "172.21.0.5", "requestID": "18C14123B70067F0", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "requestPath": "/hr-documents/", "requestHost": "minio:9000", "requestQuery": {"location": ""}, "requestHeader": {"Accept-Encoding": "zstd,gzip", "Authorization": "AWS4-HMAC-SHA256 Credential=finance-analyst/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=bce11033faa5d6441a407e68b3520f7063ee5b2988b94e0e607b01700e11a08d", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD", "X-Amz-Date": "20260711T140229Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "304", "Content-Type": "application/xml", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C14123B70067F0", "X-Content-Type-Options": "nosniff", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block"}, "accessKey": "finance-analyst", "_received_at": "2026-07-11T14:02:29.066387+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:29.065921633Z", "event": "", "trigger": "incoming", "api": {"name": "HeadBucket", "bucket": "hr-documents", "status": "Forbidden", "statusCode": 403, "rx": 0, "tx": 0, "txHeaders": 441, "timeToFirstByte": "56375ns", "timeToFirstByteInNS": "56375", "timeToResponse": "63500ns", "timeToResponseInNS": "63500"}, "remotehost": "172.21.0.5", "requestID": "18C14123B7083CA9", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "requestPath": "/hr-documents/", "requestHost": "minio:9000", "requestHeader": {"Authorization": "AWS4-HMAC-SHA256 Credential=finance-analyst/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=ad74b4219b0a48915a8c833ebdc725c1ed6ed3846e868d08f3692a492aa49d73", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "X-Amz-Content-Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "X-Amz-Date": "20260711T140229Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "0", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C14123B7083CA9", "X-Content-Type-Options": "nosniff", "X-Minio-Error-Code": "AccessDenied", "X-Minio-Error-Desc": "\"Access Denied.\"", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block"}, "accessKey": "finance-analyst", "_received_at": "2026-07-11T14:02:29.069051+00:00"}
+{"version": "1", "deploymentid": "eac1d7bb-63df-4b62-acdc-012fb514e644", "time": "2026-07-11T14:02:29.066498883Z", "event": "", "trigger": "incoming", "api": {"name": "HeadBucket", "bucket": "hr-documents", "status": "Forbidden", "statusCode": 403, "rx": 0, "tx": 0, "txHeaders": 441, "timeToFirstByte": "54958ns", "timeToFirstByteInNS": "54958", "timeToResponse": "65000ns", "timeToResponseInNS": "65000"}, "remotehost": "172.21.0.5", "requestID": "18C14123B7110E4F", "userAgent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "requestPath": "/hr-documents/", "requestHost": "minio:9000", "requestHeader": {"Authorization": "AWS4-HMAC-SHA256 Credential=finance-analyst/20260711/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=ad74b4219b0a48915a8c833ebdc725c1ed6ed3846e868d08f3692a492aa49d73", "User-Agent": "MinIO (linux; arm64) minio-go/v7.0.90 mc/RELEASE.2025-04-16T18-13-26Z", "X-Amz-Content-Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "X-Amz-Date": "20260711T140229Z"}, "responseHeader": {"Accept-Ranges": "bytes", "Content-Length": "0", "Server": "MinIO", "Strict-Transport-Security": "max-age=31536000; includeSubDomains", "Vary": "Origin,Accept-Encoding", "X-Amz-Id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8", "X-Amz-Request-Id": "18C14123B7110E4F", "X-Content-Type-Options": "nosniff", "X-Minio-Error-Code": "AccessDenied", "X-Minio-Error-Desc": "\"Access Denied.\"", "X-Ratelimit-Limit": "2117", "X-Ratelimit-Remaining": "2117", "X-Xss-Protection": "1; mode=block"}, "accessKey": "finance-analyst", "_received_at": "2026-07-11T14:02:29.071029+00:00"}
+
+================================================================
+  EXPECTED RESULT
+================================================================
+Both queries return at least one matching JSON event including accessKey/requestUser,
+API name, bucket, and status code, proving allowed and denied actions are both logged.
+
+================================================================
+  ACTUAL RESULT
+================================================================
+Matched allowed events: 10 | Matched denied events: 15
+PASS - audit trail captures both authorized and denied activity.

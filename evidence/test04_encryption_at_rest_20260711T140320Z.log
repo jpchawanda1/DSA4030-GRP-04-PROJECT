@@ -1,0 +1,77 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test04_encryption_at_rest_20260711T140320Z.log
+Generated (UTC): 2026-07-11T14:03:20Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm objects stored in hr-documents carry SSE-S3 (AES256) encryption metadata,
+and that the bytes persisted on disk are ciphertext, not the original plaintext JSON.
+
+================================================================
+  PROCEDURE 1: Bucket-level default encryption configuration
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-f3b6decc892f Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-f3b6decc892f Created 
+Auto encryption 'sse-s3' is enabled
+
+================================================================
+  PROCEDURE 2: Object metadata shows server-side encryption headers
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-b7dbc356d088 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-b7dbc356d088 Created 
+Name      : hr_shard_0001.jsonl
+Date      : 2026-07-11 13:58:52 UTC 
+Size      : 958 KiB 
+ETag      : df3154f85735fdc190eb9770ca3519ac 
+VersionID : f39b506e-a084-4790-9cb1-04e097af2af6 
+Type      : file 
+Encryption: SSE-S3
+Metadata  :
+  Content-Type: application/octet-stream 
+
+================================================================
+  PROCEDURE 3: Compare plaintext source vs. ciphertext on the MinIO backend volume
+================================================================
+--- First 200 bytes of the ORIGINAL plaintext shard (human-readable JSON) ---
+{"document_type": "hr_record", "employee_id": "EMP-0000001", "full_name": "Donald Walker", "email": "rhodespatricia@garza.com", "national_id": "096-28-3812", "phone": "790.683.8637x94026", "department
+
+--- First 200 bytes of the object's on-disk representation inside the MinIO container ---
+total 16
+drwxr-xr-x  3 root root 4096 Jul 11 13:58 .
+drwxr-xr-x 22 root root 4096 Jul 11 13:58 ..
+drwxr-xr-x  2 root root 4096 Jul 11 13:58 6ade5859-07e2-4ec0-a105-c25fdb20f2e0
+-rw-r--r--  1 root root  974 Jul 11 13:58 xl.meta
+0000000 236   X 251 246 222   0 365  \b 271 376 306 310 022 274 225 313
+0000020 211 354 177       *   v   Y 222   /   M 341   i 321 201 305 372
+0000040      \0 377 377   z 337   l   -   t 337 263   >   U   8 365 017
+0000060   e 002 023   z 234 321 227   8   q 200 352 003   i   y 202   }
+0000100 266 347   @ 270 334   ) 336 241   J 310   U 022   '   x   ~ 370
+0000120 035 346 200 327 320   7 344   ` 232 246 332 202 327 275 336 032
+0000140 273 034 222 233 345   c 370   k   &   @ 213 336 253 220   J 201
+0000160   G   H 223   e   p 376 022 201 264 344 263 223 371 275 202 255
+0000200 222   $   K   E   N 017 366 037 323   / 216   o   V 374 257 327
+0000220 314  \t   s 223   ] 307 365   R 242 201 314   c 036 212 370   ;
+0000240   ~ 343   = 025 222 261 316 373   :   #   b 273   ; 033 322   x
+0000260 006   y 333  \0   M   * 312   ^ 347 344   U  \v 247   ` 234 357
+0000300   z 241 334 324 016   n 347 253
+0000310
+
+================================================================
+  EXPECTED RESULT
+================================================================
+1) 'mc encrypt info' reports sse-s3 as the default bucket encryption.
+2) 'mc stat' shows X-Amz-Server-Side-Encryption: AES256 in the object metadata.
+3) The on-disk bytes are NOT readable JSON (ciphertext), unlike the plaintext source.
+
+================================================================
+  ACTUAL RESULT
+================================================================
+PASS - object metadata confirms SSE-S3 encryption; on-disk bytes are ciphertext (see hex dump above, not readable JSON).

@@ -1,0 +1,8 @@
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-af35c1574ff0 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-af35c1574ff0 Created 
+mc: <ERROR> Unable to read from `grp4/finance-documents/finance_shard_0001.jsonl`. Resource requested is unreadable, please reduce your request rate.
+

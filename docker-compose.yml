@@ -1,0 +1,91 @@
+name: dsa4030-grp04-secure-storage
+
+networks:
+  storage-net:
+    driver: bridge
+
+volumes:
+  minio-data:
+  clamav-data:
+  mc-config:
+
+services:
+  # --- Object storage platform (Part A: storage platform) ---
+  minio:
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    container_name: grp4-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001" --certs-dir /root/.minio/certs
+    env_file: .env
+    environment:
+      MINIO_KMS_SECRET_KEY: ${MINIO_KMS_SECRET_KEY}
+      MINIO_AUDIT_WEBHOOK_ENABLE_grp4: "on"
+      MINIO_AUDIT_WEBHOOK_ENDPOINT_grp4: "http://audit-webhook:8080/minio/audit"
+      MINIO_LOGGER_WEBHOOK_ENABLE_grp4: "on"
+      MINIO_LOGGER_WEBHOOK_ENDPOINT_grp4: "http://audit-webhook:8080/minio/logs"
+    ports:
+      - "${MINIO_API_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio-data:/data
+      - ./certs:/root/.minio/certs:ro
+    networks:
+      - storage-net
+    depends_on:
+      - audit-webhook
+    healthcheck:
+      test: ["CMD", "curl", "-kf", "https://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # --- One-shot MinIO CLI runner for admin/test commands: `docker compose run --rm mc <cmd>` ---
+  mc:
+    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
+    profiles: ["tools"]
+    env_file: .env
+    volumes:
+      - mc-config:/root/.mc
+      - ./certs:/certs:ro
+      - ./minio:/minio:ro
+      - ./dataset/output:/dataset:ro
+      - ./backups:/backups
+      - ./evidence:/evidence
+    networks:
+      - storage-net
+    depends_on:
+      minio:
+        condition: service_healthy
+
+  # --- Logging capability: receives MinIO audit + server logs via webhook (Part A: logging) ---
+  audit-webhook:
+    build: ./logging/audit-webhook
+    container_name: grp4-audit-webhook
+    restart: unless-stopped
+    ports:
+      - "${AUDIT_WEBHOOK_PORT:-8080}:8080"
+    volumes:
+      - ./logging/audit-webhook:/app:ro
+      - ./logging/audit-webhook/logs:/app/logs
+    networks:
+      - storage-net
+
+  # --- Malware scanning security tool (Part C: malware scanning) ---
+  clamav:
+    image: clamav/clamav:1.4
+    platform: linux/amd64
+    container_name: grp4-clamav
+    restart: unless-stopped
+    volumes:
+      - clamav-data:/var/lib/clamav
+      - ./dataset/output:/scan-input:ro
+      - ./security-tests/malware-samples:/scan-samples:ro
+      - ./evidence:/evidence
+    networks:
+      - storage-net
+    healthcheck:
+      test: ["CMD", "sh", "-c", "test -S /run/clamav/clamd.sock || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 90s

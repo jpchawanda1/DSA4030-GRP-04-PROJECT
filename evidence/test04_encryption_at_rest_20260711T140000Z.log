@@ -1,0 +1,67 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test04_encryption_at_rest_20260711T140000Z.log
+Generated (UTC): 2026-07-11T14:00:00Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm objects stored in hr-documents carry SSE-S3 (AES256) encryption metadata,
+and that the bytes persisted on disk are ciphertext, not the original plaintext JSON.
+
+================================================================
+  PROCEDURE 1: Bucket-level default encryption configuration
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-001aab97d467 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-001aab97d467 Created 
+Auto encryption 'sse-s3' is enabled
+
+================================================================
+  PROCEDURE 2: Object metadata shows server-side encryption headers
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-1401c9d6648e Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-1401c9d6648e Created 
+Name      : hr_shard_0001.jsonl
+Date      : 2026-07-11 13:58:52 UTC 
+Size      : 958 KiB 
+ETag      : df3154f85735fdc190eb9770ca3519ac 
+VersionID : f39b506e-a084-4790-9cb1-04e097af2af6 
+Type      : file 
+Encryption: SSE-S3
+Metadata  :
+  Content-Type: application/octet-stream 
+
+
+================================================================
+  PROCEDURE 3: Compare plaintext source vs. ciphertext on the MinIO backend volume
+================================================================
+--- First 200 bytes of the ORIGINAL plaintext shard (human-readable JSON) ---
+{"document_type": "hr_record", "employee_id": "EMP-0000001", "full_name": "Donald Walker", "email": "rhodespatricia@garza.com", "national_id": "096-28-3812", "phone": "790.683.8637x94026", "department
+
+--- First 200 bytes of the object's on-disk representation inside the MinIO container ---
+total 16
+drwxr-xr-x  3 root root 4096 Jul 11 13:58 .
+drwxr-xr-x 22 root root 4096 Jul 11 13:58 ..
+drwxr-xr-x  2 root root 4096 Jul 11 13:58 6ade5859-07e2-4ec0-a105-c25fdb20f2e0
+-rw-r--r--  1 root root  974 Jul 11 13:58 xl.meta
+sh: line 1: xargs: command not found
+(unable to read raw backend file directly - expected, MinIO manages storage internally)
+
+================================================================
+  EXPECTED RESULT
+================================================================
+1) 'mc encrypt info' reports sse-s3 as the default bucket encryption.
+2) 'mc stat' shows X-Amz-Server-Side-Encryption: AES256 in the object metadata.
+3) The on-disk bytes are NOT readable JSON (ciphertext), unlike the plaintext source.
+
+================================================================
+  ACTUAL RESULT
+================================================================
+See metadata and hex dump above. If 'AES256' appears in the stat output and the hex
+dump does not show readable '{"document_type"' JSON, encryption at rest is confirmed: PASS.

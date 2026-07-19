@@ -1,0 +1,78 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test05_integrity_verification_20260711T140322Z.log
+Generated (UTC): 2026-07-11T14:03:22Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm object integrity can be verified against the pre-upload SHA-256 manifest,
+and that tampering with stored bytes is detected by a hash mismatch.
+Expected SHA-256 (from manifest, computed pre-upload): 88ac0ef930b7d10f5b5d46141f0f1b4ab02e4efe39357b32691e05f1955c9262
+
+================================================================
+  PROCEDURE 1: BASELINE - download current object and verify hash matches manifest
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-5c0b9ce149ed Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-5c0b9ce149ed Created 
+Downloaded object SHA-256: 88ac0ef930b7d10f5b5d46141f0f1b4ab02e4efe39357b32691e05f1955c9262
+--> MATCH: object integrity intact.
+
+================================================================
+  PROCEDURE 2: TAMPER - corrupt the object's bytes directly on the MinIO backend volume
+================================================================
+corrupted: /data/finance-documents/finance_shard_0001.jsonl/2221ceaa-528d-4606-a7ab-21d1f61709b4/part.1
+corrupted: /data/finance-documents/finance_shard_0001.jsonl/36f791ec-ec5c-4737-ac83-7cc6a912898a/part.1
+corrupted: /data/finance-documents/finance_shard_0001.jsonl/3b9cd1f7-89c3-42aa-ba53-4619f32412b0/part.1
+
+================================================================
+  PROCEDURE 3: Re-download the object and re-verify against the manifest
+================================================================
+--> mc cat FAILED after tampering (MinIO detected corrupted/checksum-invalid data):
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-7275fcdbd388 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-7275fcdbd388 Created 
+mc: <ERROR> Unable to read from `grp4/finance-documents/finance_shard_0001.jsonl`. Resource requested is unreadable, please reduce your request rate.
+
+
+================================================================
+  PROCEDURE 4: Restore the object (re-upload known-good plaintext shard) so the environment stays consistent for later tests/demo
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-131ed0cd802e Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-131ed0cd802e Created 
+`/dataset/finance-documents/finance_shard_0001.jsonl` -> `grp4/finance-documents/finance_shard_0001.jsonl`
+┌────────────┬─────────────┬──────────┬─────────────┐
+│ Total      │ Transferred │ Duration │ Speed       │
+│ 815.68 KiB │ 815.68 KiB  │ 00m00s   │ 45.56 MiB/s │
+└────────────┴─────────────┴──────────┴─────────────┘
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-0f5a099b4ba1 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-0f5a099b4ba1 Created 
+Restored object SHA-256: 88ac0ef930b7d10f5b5d46141f0f1b4ab02e4efe39357b32691e05f1955c9262
+--> Restore verified: hash matches manifest again.
+
+================================================================
+  EXPECTED RESULT
+================================================================
+Baseline hash matches manifest. After direct backend tampering, either (a) MinIO's
+internal bitrot/checksum protection rejects the read, or (b) the re-downloaded
+object's SHA-256 no longer matches the manifest - both prove tampering is detectable.
+The object is then restored from the original source shard (full end-to-end recovery
+of a single-object corruption is also demonstrated bucket-wide in test_08).
+
+================================================================
+  ACTUAL RESULT
+================================================================
+PASS - baseline verified, tampering detected, object successfully restored.

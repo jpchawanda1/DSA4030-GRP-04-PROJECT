@@ -1,0 +1,107 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test02_rbac_enforcement_20260711T135912Z.log
+Generated (UTC): 2026-07-11T13:59:12Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm each authenticated user can only perform the S3 actions their attached IAM
+policy allows: hr-manager (RW on hr-documents only), finance-analyst (RO on
+finance-documents only), guest-contractor (authenticated, NO policy -> deny all).
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-6ffe38a30d13 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-6ffe38a30d13 Created 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-dcc70ec4235a Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-dcc70ec4235a Created 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-4eacf2c832e6 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-4eacf2c832e6 Created 
+
+================================================================
+  POSITIVE CONTROL: hr-manager can list+read hr-documents (own bucket)
+================================================================
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-e88f6b020eac Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-e88f6b020eac Created 
+[2026-07-11 13:58:52 UTC] 958KiB STANDARD hr_shard_0001.jsonl
+[2026-07-11 13:58:52 UTC] 960KiB STANDARD hr_shard_0002.jsonl
+[2026-07-11 13:58:52 UTC] 959KiB STANDARD hr_shard_0003.jsonl
+[2026-07-11 13:58:52 UTC] 958KiB STANDARD hr_shard_0004.jsonl
+[2026-07-11 13:58:52 UTC] 959KiB STANDARD hr_shard_0005.jsonl
+
+================================================================
+  NEGATIVE: hr-manager attempts to list finance-documents (foreign bucket)
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-fe7375f9b277 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-fe7375f9b277 Created 
+mc: <ERROR> Unable to list folder. Access Denied.
+
+--> exit code: 1 (non-zero / AccessDenied expected)
+
+================================================================
+  POSITIVE CONTROL: finance-analyst can list+read finance-documents (own bucket, read-only)
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-d835fdc76e9f Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-d835fdc76e9f Created 
+[2026-07-11 13:58:52 UTC] 816KiB STANDARD finance_shard_0001.jsonl
+[2026-07-11 13:58:52 UTC] 814KiB STANDARD finance_shard_0002.jsonl
+[2026-07-11 13:58:52 UTC] 815KiB STANDARD finance_shard_0003.jsonl
+[2026-07-11 13:58:52 UTC] 816KiB STANDARD finance_shard_0004.jsonl
+[2026-07-11 13:58:52 UTC] 816KiB STANDARD finance_shard_0005.jsonl
+
+================================================================
+  NEGATIVE: finance-analyst attempts to WRITE to finance-documents (read-only policy)
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-c79a0098a3fb Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-c79a0098a3fb Created 
+`/evidence/rbac_write_test.json` -> `finance-analyst/finance-documents/rbac_write_test.json`
+mc: <ERROR> Failed to copy `/evidence/rbac_write_test.json`. Insufficient permissions to access this path `https://minio:9000/finance-documents/rbac_write_test.json`
+
+--> exit code: 1 (non-zero / AccessDenied expected, finance-analyst is read-only)
+
+================================================================
+  NEGATIVE: guest-contractor (valid login, no policy) attempts to list any bucket
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-6c597b98f0a1 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-6c597b98f0a1 Created 
+mc: <ERROR> Unable to list folder. Access Denied.
+
+--> exit code: 1 (non-zero / AccessDenied expected - authenticated but unauthorized)
+
+================================================================
+  EXPECTED RESULT
+================================================================
+Positive controls succeed; all three negative/cross-boundary attempts are denied.
+
+================================================================
+  ACTUAL RESULT
+================================================================
+PASS - RBAC policies correctly enforced department/role boundaries.

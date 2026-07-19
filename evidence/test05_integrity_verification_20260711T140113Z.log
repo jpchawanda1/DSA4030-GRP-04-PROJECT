@@ -1,0 +1,56 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test05_integrity_verification_20260711T140113Z.log
+Generated (UTC): 2026-07-11T14:01:13Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm object integrity can be verified against the pre-upload SHA-256 manifest,
+and that tampering with stored bytes is detected by a hash mismatch.
+Expected SHA-256 (from manifest, computed pre-upload): 88ac0ef930b7d10f5b5d46141f0f1b4ab02e4efe39357b32691e05f1955c9262
+
+================================================================
+  PROCEDURE 1: BASELINE - download current object and verify hash matches manifest
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-c8b452c02428 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-c8b452c02428 Created 
+Downloaded object SHA-256: 88ac0ef930b7d10f5b5d46141f0f1b4ab02e4efe39357b32691e05f1955c9262
+--> MATCH: object integrity intact.
+
+================================================================
+  PROCEDURE 2: TAMPER - corrupt the object's bytes directly on the MinIO backend volume
+================================================================
+corrupted: /data/finance-documents/finance_shard_0001.jsonl/36f791ec-ec5c-4737-ac83-7cc6a912898a/part.1
+
+================================================================
+  PROCEDURE 3: Re-download the object and re-verify against the manifest
+================================================================
+--> mc cat FAILED after tampering (MinIO detected corrupted/checksum-invalid data):
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-d909b1c04b4b Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-d909b1c04b4b Created 
+mc: <ERROR> Unable to read from `grp4/finance-documents/finance_shard_0001.jsonl`. Resource requested is unreadable, please reduce your request rate.
+
+
+================================================================
+  PROCEDURE 4: Restore integrity from backup (see test_08) - out of scope here, logged for reference
+================================================================
+Recovery of the tampered object is demonstrated in test_08_backup_recovery.sh.
+
+================================================================
+  EXPECTED RESULT
+================================================================
+Baseline hash matches manifest. After direct backend tampering, either (a) MinIO's
+internal bitrot/checksum protection rejects the read, or (b) the re-downloaded
+object's SHA-256 no longer matches the manifest - both prove tampering is detectable.
+
+================================================================
+  ACTUAL RESULT
+================================================================
+See PROCEDURE 1 and PROCEDURE 3 output above.

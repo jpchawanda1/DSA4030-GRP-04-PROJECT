@@ -1,0 +1,25 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AuditorBucketList",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket", "s3:GetBucketLocation"],
+      "Resource": [
+        "arn:aws:s3:::hr-documents",
+        "arn:aws:s3:::finance-documents",
+        "arn:aws:s3:::contracts-documents"
+      ]
+    },
+    {
+      "Sid": "AuditorObjectReadOnly",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject"],
+      "Resource": [
+        "arn:aws:s3:::hr-documents/*",
+        "arn:aws:s3:::finance-documents/*",
+        "arn:aws:s3:::contracts-documents/*"
+      ]
+    }
+  ]
+}

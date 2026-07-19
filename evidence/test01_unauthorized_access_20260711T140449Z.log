@@ -1,0 +1,48 @@
+Evidence log: /Users/user/Downloads/data science course/summer semester 2026/big data security/DSA4030-GRP-04-PROJECT/evidence/test01_unauthorized_access_20260711T140449Z.log
+Generated (UTC): 2026-07-11T14:04:49Z
+
+================================================================
+  OBJECTIVE
+================================================================
+Confirm MinIO rejects requests presenting no credentials, or invalid credentials,
+when attempting to list/read a private bucket (hr-documents).
+
+================================================================
+  PROCEDURE 1: mc client with a bogus access key / secret key
+================================================================
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-6f4a027aefd8 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-6f4a027aefd8 Created 
+mc: <ERROR> Unable to initialize new alias from the provided credentials. The Access Key Id you provided does not exist in our records.
+
+ Container grp4-minio Running 
+ Container grp4-audit-webhook Running 
+ Container grp4-minio Waiting 
+ Container grp4-minio Healthy 
+ Container dsa4030-grp04-secure-storage-mc-run-99675e73a140 Creating 
+ Container dsa4030-grp04-secure-storage-mc-run-99675e73a140 Created 
+mc: <ERROR> Unable to list folder. Requested path `/badactor` not found
+
+--> mc exit code: 1 (non-zero expected)
+
+================================================================
+  PROCEDURE 2: Anonymous curl GET against a known object, no auth header
+================================================================
+--> HTTP status code: 403 (403 or 400 expected, not 200)
+--> Response body:
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>AccessDenied</Code><Message>Access Denied.</Message><Key>hr_shard_0001.jsonl</Key><BucketName>hr-documents</BucketName><Resource>/hr-documents/hr_shard_0001.jsonl</Resource><RequestId>18C14144EE139F6F</RequestId><HostId>dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8</HostId></Error>
+
+================================================================
+  EXPECTED RESULT
+================================================================
+1) mc command fails with an authentication/AccessDenied error (non-zero exit).
+2) Anonymous HTTP GET returns 403 Forbidden (bucket has no public/anonymous policy).
+
+================================================================
+  ACTUAL RESULT
+================================================================
+PASS - both unauthorized attempts were rejected.
