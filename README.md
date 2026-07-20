@@ -74,10 +74,6 @@ Optional: pass a smaller record count while iterating, e.g. `bash scripts/setup.
 - MinIO API: `https://localhost:9000`
 - Audit log query API: `http://localhost:8080/events`
 
-RBAC test user credentials are in `.env` (copied from `.env.example` on first
-run — **change the placeholder passwords** if you intend to share this
-environment beyond your own machine).
-
 ## Running the security tests
 
 ```bash
