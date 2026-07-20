@@ -32,8 +32,7 @@ explained — see `reports/incident-simulations.md` (4 incidents + 1 bonus,
 each mapped to a `security-tests/*.sh` script and its evidence file).
 
 Common deliverables (executive summary, architecture, implementation report,
-testing matrix, risk assessment, conclusion) are all drafted in `reports/` —
-review and personalize before submission.
+testing matrix, risk assessment, conclusion) are all drafted in `reports/`
 
 ## Architecture
 
