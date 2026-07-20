@@ -14,6 +14,23 @@ documents in a cloud object storage platform" scenario, built on **MinIO**,
 | D | ≥6 security tests with evidence | `security-tests/` (8 tests, all passing) → results in `reports/testing-matrix.md` |
 | E | Recommendations | `reports/conclusion-recommendations.md`, `reports/risk-assessment.md` |
 
+Common deliverables checklist (see `reports/` for each):
+
+| # | Deliverable | File |
+|---|---|---|
+| 1 | Executive Summary | `reports/executive-summary.md` |
+| 2 | System Architecture Diagram | `reports/architecture.md` |
+| 3 | Implementation Report | `reports/implementation-report.md` |
+| 4 | Security Testing Matrix (≥6 tests) | `reports/testing-matrix.md` |
+| 5 | Evidence Portfolio | `evidence/` (see `evidence/README.md` for the index) |
+| 6 | Risk Assessment Table | `reports/risk-assessment.md` |
+| 7 | Conclusion and Recommendations | `reports/conclusion-recommendations.md` |
+| 8 | Appendices (source code, scripts, datasets, references) | `reports/appendices.md` |
+
+Also required: **≥3 simulated security incidents** with detection/prevention
+explained — see `reports/incident-simulations.md` (4 incidents + 1 bonus,
+each mapped to a `security-tests/*.sh` script and its evidence file).
+
 Common deliverables (executive summary, architecture, implementation report,
 testing matrix, risk assessment, conclusion) are all drafted in `reports/` —
 review and personalize before submission, since your group is expected to
