@@ -87,7 +87,7 @@ Runs all 8 tests in order and writes:
 Run an individual test with `bash security-tests/test_03_tls_enforcement.sh`, etc.
 
 Results are already compiled in [`reports/testing-matrix.md`](reports/testing-matrix.md)
-from the latest run — re-run and update it if you change anything.
+from the latest run 
 
 ## Tearing down / resetting
 
@@ -113,6 +113,4 @@ To regenerate the dataset deterministically: `python3 dataset/generate_dataset.p
   rotation; ClamAV here scans on-demand rather than blocking uploads in
   real time (a production setup would wire it into MinIO's bucket-event
   notifications to reject infected uploads synchronously).
-- Each group member should personally run and be able to explain at least one
-  security test end-to-end during the live demo — the `security-tests/test_0N_*.sh`
-  scripts are self-contained and a good unit to divide up.
+
