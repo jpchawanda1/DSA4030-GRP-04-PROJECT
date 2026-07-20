@@ -33,8 +33,7 @@ each mapped to a `security-tests/*.sh` script and its evidence file).
 
 Common deliverables (executive summary, architecture, implementation report,
 testing matrix, risk assessment, conclusion) are all drafted in `reports/` —
-review and personalize before submission, since your group is expected to
-explain the reasoning behind them.
+review and personalize before submission.
 
 ## Architecture
 
